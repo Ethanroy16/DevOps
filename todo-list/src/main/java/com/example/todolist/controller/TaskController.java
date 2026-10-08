@@ -4,6 +4,8 @@ import com.example.todolist.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TaskController {
@@ -23,5 +25,18 @@ public class TaskController {
         );
 
         return "index";
+    }
+
+    @PostMapping("/tasks")
+public String addTask(
+        @RequestParam String title,
+        @RequestParam String description) {
+
+    taskService.addTask(
+            title,
+            description
+    );
+
+    return "redirect:/";
     }
 }
