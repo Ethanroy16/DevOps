@@ -78,10 +78,12 @@ public String home(Model model) {
 public String completeTask(
         @PathVariable int id) {
 
-    taskService.completeTask(id);
+    if (!taskService.completeTask(id)) {
+        return "redirect:/";
+    }
 
     return "redirect:/";
-    }
+}
 
     @PostMapping("/tasks/{id}/uncomplete")
 public String uncompleteTask(
@@ -93,13 +95,15 @@ public String uncompleteTask(
     } 
 
     @PostMapping("/tasks/{id}/delete")
-public String deleteTask(
+    public String deleteTask(
         @PathVariable int id) {
 
-    taskService.deleteTask(id);
+    if (!taskService.deleteTask(id)) {
+        return "redirect:/";
+    }
 
     return "redirect:/";
-    }
+}
 
 
 }
