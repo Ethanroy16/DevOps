@@ -44,6 +44,12 @@
 
 </form>
 
+     <div
+        th:if="${error}"
+        class="error"
+        th:text="${error}">
+     </div>
+
     <div class="tasks">
 
         <div th:each="task : ${tasks}"
@@ -60,6 +66,25 @@
     <p th:if="${task.completed}">
         ✓ Completed
     </p>
+
+    <div class="statistics">
+
+    <div class="stat">
+        <h3>Total</h3>
+        <p th:text="${totalTasks}">0</p>
+    </div>
+
+    <div class="stat">
+        <h3>Completed</h3>
+        <p th:text="${completedTasks}">0</p>
+    </div>
+
+    <div class="stat">
+        <h3>Remaining</h3>
+        <p th:text="${incompleteTasks}">0</p>
+    </div>
+
+</div>
 
     <form
             th:if="${!task.completed}"

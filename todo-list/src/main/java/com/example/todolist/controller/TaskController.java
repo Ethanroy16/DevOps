@@ -18,7 +18,52 @@ public class TaskController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+public String home(Model model) {
+
+    model.addAttribute(
+            "tasks",
+            taskService.getAllTasks()
+    );
+
+    model.addAttribute(
+            "totalTasks",
+            taskService.getTaskCount()
+    );
+
+    model.addAttribute(
+            "completedTasks",
+            taskService.getCompletedTasks().size()
+    );
+
+    model.addAttribute(
+            "incompleteTasks",
+            taskService.getIncompleteTasks().size()
+    );
+
+    return "index";
+}
+
+    @PostMapping("/tasks")
+    public String addTask(
+        @RequestParam String title,
+        @RequestParam String description,
+        Model model) {
+
+    try {
+
+        taskService.addTask(
+                title,
+                description
+        );
+
+        return "redirect:/";
+
+    } catch (IllegalArgumentException e) {
+
+        model.addAttribute(
+                "error",
+                e.getMessage()
+        );
 
         model.addAttribute(
                 "tasks",
@@ -27,19 +72,7 @@ public class TaskController {
 
         return "index";
     }
-
-    @PostMapping("/tasks")
-public String addTask(
-        @RequestParam String title,
-        @RequestParam String description) {
-
-    taskService.addTask(
-            title,
-            description
-    );
-
-    return "redirect:/";
-    }
+}
     
     @PostMapping("/tasks/{id}/complete")
 public String completeTask(
