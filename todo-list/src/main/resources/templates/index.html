@@ -47,17 +47,43 @@
     <div class="tasks">
 
         <div th:each="task : ${tasks}"
-             class="task">
+     class="task">
 
-            <h3 th:text="${task.title}">
-                Task title
-            </h3>
+    <h3 th:text="${task.title}">
+        Task title
+    </h3>
 
-            <p th:text="${task.description}">
-                Task description
-            </p>
+    <p th:text="${task.description}">
+        Task description
+    </p>
 
-        </div>
+    <p th:if="${task.completed}">
+        ✓ Completed
+    </p>
+
+    <form
+            th:if="${!task.completed}"
+            th:action="@{/tasks/{id}/complete(id=${task.id})}"
+            method="post">
+
+        <button type="submit">
+            Complete
+        </button>
+
+    </form>
+
+    <form
+            th:if="${task.completed}"
+            th:action="@{/tasks/{id}/uncomplete(id=${task.id})}"
+            method="post">
+
+        <button type="submit">
+            Undo
+        </button>
+
+    </form>
+
+</div>
 
     </div>
 
