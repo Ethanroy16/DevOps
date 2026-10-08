@@ -1,129 +1,151 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>To-Do List</title>
-
-    <link rel="stylesheet"
-          href="/css/style.css">
-
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>My To-Do List</h1>
+    <header>
+        <h1>My To-Do List</h1>
+        <p>Manage your tasks using the task manager.</p>
+    </header>
 
-    <p>Manage your tasks using the task manager.</p>
+    <!-- Add Task -->
+    <section class="add-task">
+        <h2>Add New Task</h2>
 
-<h2>Add New Task</h2>
+        <form th:action="@{/tasks}" method="post">
 
-<form action="/tasks" method="post">
+            <div class="form-group">
+                <input
+                        type="text"
+                        name="title"
+                        placeholder="Task title"
+                        required>
+            </div>
 
-    <input
-            type="text"
-            name="title"
-            placeholder="Task title"
-            required>
+            <div class="form-group">
+                <textarea
+                        name="description"
+                        placeholder="Task description"></textarea>
+            </div>
 
-    <textarea
-            name="description"
-            placeholder="Task description"></textarea>
+            <button type="submit" class="btn btn-primary">
+                Add Task
+            </button>
 
-    <button type="submit">
-        Add Task
-    </button>
+        </form>
+    </section>
 
-</form>
-
-     <div
-        th:if="${error}"
-        class="error"
-        th:text="${error}">
-     </div>
-
-    <div class="tasks">
-
-        <div th:each="task : ${tasks}"
-     class="task">
-
-    <h3 th:text="${task.title}">
-        Task title
-    </h3>
-
-    <p th:text="${task.description}">
-        Task description
-    </p>
-
-    <p th:if="${task.completed}">
-        ✓ Completed
-    </p>
-
-    <div class="statistics">
-
-    <div class="stat">
-        <h3>Total</h3>
-        <p th:text="${totalTasks}">0</p>
+    <!-- Error Message -->
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
     </div>
 
-    <div class="stat">
-        <h3>Completed</h3>
-        <p th:text="${completedTasks}">0</p>
-    </div>
+    <!-- Statistics -->
+    <section class="statistics">
 
-    <div class="stat">
-        <h3>Remaining</h3>
-        <p th:text="${incompleteTasks}">0</p>
-    </div>
+        <div class="stat-card">
+            <h3>Total</h3>
+            <p th:text="${total}">0</p>
+        </div>
 
-</div>
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <p th:text="${completed}">0</p>
+        </div>
 
-    <form
-            th:if="${!task.completed}"
-            th:action="@{/tasks/{id}/complete(id=${task.id})}"
-            method="post">
+        <div class="stat-card">
+            <h3>Remaining</h3>
+            <p th:text="${remaining}">0</p>
+        </div>
 
-        <button type="submit">
-            Complete
-        </button>
+    </section>
 
-    </form>
+    <!-- Tasks -->
+    <section class="tasks">
 
-    <form
-            th:if="${task.completed}"
-            th:action="@{/tasks/{id}/uncomplete(id=${task.id})}"
-            method="post">
+        <h2>Your Tasks</h2>
 
-        <button type="submit">
-            Undo
-        </button>
+        <div th:if="${#lists.isEmpty(tasks)}" class="no-tasks">
+            <p>No tasks available. Add a new task above!</p>
+        </div>
 
-    </form>
+        <div th:each="task : ${tasks}" class="task-card">
 
-    <form
-        th:action="@{/tasks/{id}/delete(id=${task.id})}"
-        method="post">
+            <div class="task-content">
 
-    <button type="submit">
-        Delete
-    </button>
+                <h3 th:text="${task.title}">Task title</h3>
 
-    </form>
+                <p th:text="${task.description}">
+                    Task description
+                </p>
 
-</div>
+                <span
+                        th:if="${task.completed}"
+                        class="status completed">
+                    Completed
+                </span>
 
-    </div>
+                <span
+                        th:unless="${task.completed}"
+                        class="status pending">
+                    Pending
+                </span>
+
+            </div>
+
+            <div class="task-actions">
+
+                <!-- Complete -->
+                <form
+                        th:if="${!task.completed}"
+                        th:action="@{/tasks/{id}/complete(id=${task.id})}"
+                        method="post">
+
+                    <button type="submit" class="btn btn-success">
+                        Complete
+                    </button>
+
+                </form>
+
+                <!-- Undo -->
+                <form
+                        th:if="${task.completed}"
+                        th:action="@{/tasks/{id}/uncomplete(id=${task.id})}"
+                        method="post">
+
+                    <button type="submit" class="btn btn-warning">
+                        Undo
+                    </button>
+
+                </form>
+
+                <!-- Delete -->
+                <form
+                        th:action="@{/tasks/{id}/delete(id=${task.id})}"
+                        method="post">
+
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
 </body>
-
 </html>
