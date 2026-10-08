@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>To-Do List</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My To-Do List</h1>
+
+    <p>Manage your tasks using the task manager.</p>
+
+    <div class="tasks">
+
+        <div th:each="task : ${tasks}"
+             class="task">
+
+            <h3 th:text="${task.title}">
+                Task title
+            </h3>
+
+            <p th:text="${task.description}">
+                Task description
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
