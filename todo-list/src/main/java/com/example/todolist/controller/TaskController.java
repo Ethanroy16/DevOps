@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class TaskController {
@@ -39,4 +40,33 @@ public String addTask(
 
     return "redirect:/";
     }
+    
+    @PostMapping("/tasks/{id}/complete")
+public String completeTask(
+        @PathVariable int id) {
+
+    taskService.completeTask(id);
+
+    return "redirect:/";
+    }
+
+    @PostMapping("/tasks/{id}/uncomplete")
+public String uncompleteTask(
+        @PathVariable int id) {
+
+    taskService.uncompleteTask(id);
+
+    return "redirect:/";
+    } 
+
+    @PostMapping("/tasks/{id}/delete")
+public String deleteTask(
+        @PathVariable int id) {
+
+    taskService.deleteTask(id);
+
+    return "redirect:/";
+    }
+
+
 }

@@ -83,6 +83,16 @@
 
     </form>
 
+    <form
+        th:action="@{/tasks/{id}/delete(id=${task.id})}"
+        method="post">
+
+    <button type="submit">
+        Delete
+    </button>
+
+    </form>
+
 </div>
 
     </div>
