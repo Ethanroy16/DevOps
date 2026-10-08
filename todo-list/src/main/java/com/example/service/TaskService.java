@@ -132,4 +132,18 @@ public class TaskService {
     public int getTaskCount() {
         return tasks.size();
     }
+    
+    public TaskService() {
+
+    addTask(
+            "Complete Java assignment",
+            "Finish the Spring Boot development assignment."
+    );
+
+    addTask(
+            "Write README",
+            "Document the project and development process."
+    );
+}
+    
 }
