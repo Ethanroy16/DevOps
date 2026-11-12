@@ -6,7 +6,8 @@ target/
 *.iml
 .classpath
 .project
-.settings/
+.settings/#
+.vs/
 
 # VS Code
 .vscode/
